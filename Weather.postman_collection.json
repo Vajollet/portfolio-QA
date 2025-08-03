@@ -1,0 +1,107 @@
+{
+	"info": {
+		"_postman_id": "f7361d71-121c-4c04-9941-eeb77bf95d6f",
+		"name": "Weather",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "46822364"
+	},
+	"item": [
+		{
+			"name": "[GET] Weather in Warsaw v1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let jsonData;\r",
+							"\r",
+							"try {\r",
+							"    jsonData = pm.response.json();\r",
+							"} catch (e) {\r",
+							"    console.error(\"Test nieudany\", e);\r",
+							"}\r",
+							"\r",
+							"pm.test(\"Weryfikacja kodu odpowiedzi - 200\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Miasto to Warsaw\", function () { \r",
+							"    pm.expect(jsonData.name).to.eql(\"Warsaw\"); \r",
+							"});\r",
+							"\r",
+							"pm.test(\"Kod kraju to PL\", function () {\r",
+							"    pm.expect(jsonData.sys.country).to.eql(\"PL\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Temperatura w prawidłowym zakresie\", function () {\r",
+							"    const temp = jsonData.main.temp;\r",
+							"    pm.expect(temp).to.be.above(-50);\r",
+							"    pm.expect(temp).to.be.below(60);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Wilgotność w mieści się w zakresie 0–100%\", function () {\r",
+							"    const humidity = jsonData.main.humidity;\r",
+							"    pm.expect(humidity).to.be.within(0, 100);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "7ed804f19915a3a36b896c4050505013",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "appid",
+							"type": "string"
+						},
+						{
+							"key": "in",
+							"value": "query",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL1}}/weather?q=Warszawa&appid={{key}}&units=metric&t=12345\n",
+					"host": [
+						"{{baseURL1}}"
+					],
+					"path": [
+						"weather"
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "Warszawa"
+						},
+						{
+							"key": "appid",
+							"value": "{{key}}"
+						},
+						{
+							"key": "units",
+							"value": "metric"
+						},
+						{
+							"key": "t",
+							"value": "12345\n"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
